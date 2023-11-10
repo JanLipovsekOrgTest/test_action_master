@@ -19,7 +19,7 @@ jobs:
         app_id: 429906
         private_key: ${{ secrets.PRIVATE_KEY }}
 
-    - uses: LouisBrunner/checks-action@v1.3.1
+    - uses: LouisBrunner/checks-action@vv1.6.1
       id: check
       with:
         sha: ${{ github.sha }}
@@ -49,13 +49,13 @@ jobs:
       with:
         token: ${{ secrets.PAT }} # Note this is NOT GITHUB_TOKEN but a PAT a
         ref: main # or refs/heads/target_branch
-        repo: test_action_master
+        repo: test_action_slave
         owner: JanLipovsekOrgTest
         workflow: slave.yml
         workflow_inputs: '{"workflow-input-1": "${{ github.ref }}", "workflow-input-2": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}'
         workflow_timeout_seconds: 300 # was 120  Default: 300
 
-    - uses: LouisBrunner/checks-action@v1.3.1
+    - uses: LouisBrunner/checks-action@v1.6.1
       if: failure()
       with:
         sha: ${{ github.sha }}
