@@ -11,8 +11,15 @@ on:
         description: 'workflow-input-2'
         required: true
         default: ''
+      distinct_id:
+        description: 'required for codex-/return-dispatch@v1 to work'
 
 jobs:
+  print_parent_run:
+    runs-on: ubuntu-latest #["self-hosted", "regression-test"] 
+    steps:
+      - name: echo distinct ID ${{ github.event.inputs.distinct_id }}
+        run: echo ${{ github.event.inputs.distinct_id }}
   build:
     runs-on: ubuntu-latest
     steps:
