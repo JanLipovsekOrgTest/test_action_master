@@ -34,7 +34,7 @@ jobs:
         script: |
           const token = ${{ steps.get_installation_token.outputs.token }};
           const octokit = new Octokit({ auth: token });
-          github.rest.actions.createWorkflowDispatch({
+          octokit.rest.actions.createWorkflowDispatch({
             owner: context.repo.owner,
             repo: context.repo.repo,
             workflow_id: 'slave.yml',
