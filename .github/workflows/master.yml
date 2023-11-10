@@ -52,7 +52,7 @@ jobs:
         repo: test_action_slave
         owner: JanLipovsekOrgTest
         workflow: slave.yml
-        workflow_inputs: '{"workflow-input-1": "${{ github.ref }}", "workflow-input-2": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}'
+        workflow_inputs: '{"workflow-input-1": "${{ github.sha }}", "workflow-input-2": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}'
         workflow_timeout_seconds: 300 # was 120  Default: 300
 
     - uses: LouisBrunner/checks-action@v1.6.1
