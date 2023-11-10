@@ -55,4 +55,4 @@ jobs:
         action_url: https://josh-ops.com/posts/github-code-coverage/
         output: |
           {"summary":""}
-        output_text_description_file: code-coverage-results.md
+        #output_text_description_file: code-coverage-results.md
