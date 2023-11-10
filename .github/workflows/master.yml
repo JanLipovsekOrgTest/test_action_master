@@ -19,7 +19,7 @@ jobs:
         app_id: 429906
         private_key: ${{ secrets.PRIVATE_KEY }}
 
-    - uses: LouisBrunner/checks-action@vv1.6.1
+    - uses: LouisBrunner/checks-action@v1.6.1
       id: check
       with:
         sha: ${{ github.sha }}
