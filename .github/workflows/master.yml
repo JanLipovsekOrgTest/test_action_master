@@ -49,7 +49,7 @@ jobs:
       with:
         token: ${{ secrets.PAT }} # Note this is NOT GITHUB_TOKEN but a PAT a
         ref: main # or refs/heads/target_branch
-        repo: test_action_master
+        repo: test_action_slave
         owner: JanLipovsekOrgTest
         workflow: slave.yml
         workflow_inputs: '{"workflow-input-1": "${{ github.ref }}", "workflow-input-2": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}'
