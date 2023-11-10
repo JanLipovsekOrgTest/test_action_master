@@ -28,32 +28,32 @@ jobs:
         name: Second Job
         status: in_progress
 
-    # - name: Trigger Workflow
-    #   uses: actions/github-script@v6
-    #   with:
-    #     script: |
-    #       github.rest.actions.createWorkflowDispatch({
-    #         owner: context.repo.owner,
-    #         repo: context.repo.repo,
-    #         workflow_id: 'slave.yml',
-    #         ref: '${{ github.head_ref }}',
-    #         inputs: {
-    #           "workflow-input-1": "value-1",
-    #           "workflow-input-2": "value-2",
-    #         }
-    #       })
-
-    - name: Dispatch an action and get the run ID
-      uses: codex-/return-dispatch@v1
-      id: return_dispatch
+    - name: Trigger Workflow
+      uses: actions/github-script@v6
       with:
-        token: ${{ secrets.PAT }} # Note this is NOT GITHUB_TOKEN but a PAT a
-        ref: main # or refs/heads/target_branch
-        repo: test_action_slave
-        owner: JanLipovsekOrgTest
-        workflow: slave.yml
-        workflow_inputs: '{"workflow-input-1": "${{ github.sha }}", "workflow-input-2": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}'
-        workflow_timeout_seconds: 300 # was 120  Default: 300
+        script: |
+          github.rest.actions.createWorkflowDispatch({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            workflow_id: 'slave.yml',
+            ref: '${{ github.head_ref }}',
+            inputs: {
+              "workflow-input-1": "value-1",
+              "workflow-input-2": "value-2",
+            }
+          })
+
+    # - name: Dispatch an action and get the run ID
+    #   uses: codex-/return-dispatch@v1
+    #   id: return_dispatch
+    #   with:
+    #     token: ${{ secrets.PAT }} # Note this is NOT GITHUB_TOKEN but a PAT a
+    #     ref: main # or refs/heads/target_branch
+    #     repo: test_action_slave
+    #     owner: JanLipovsekOrgTest
+    #     workflow: slave.yml
+    #     workflow_inputs: '{"workflow-input-1": "${{ github.sha }}", "workflow-input-2": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}'
+    #     workflow_timeout_seconds: 300 # was 120  Default: 300
 
     - uses: LouisBrunner/checks-action@v1.6.1
       if: failure()
