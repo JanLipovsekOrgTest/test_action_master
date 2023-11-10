@@ -32,6 +32,8 @@ jobs:
       uses: actions/github-script@v6
       with:
         script: |
+          const token = ${{ steps.get_installation_token.outputs.token }};
+          const octokit = new Octokit({ auth: token });
           github.rest.actions.createWorkflowDispatch({
             owner: context.repo.owner,
             repo: context.repo.repo,
