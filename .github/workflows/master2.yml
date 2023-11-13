@@ -24,7 +24,7 @@ jobs:
           private_key: ${{ secrets.PRIVATE_KEY }}
 
       - name: Run Checks Action
-        uses: LouisBrunner/checks-action@v1.3.1
+        uses: LouisBrunner/checks-action@v1.6.1
         id: check
         with:
           sha: ${{ github.sha }}
@@ -51,7 +51,7 @@ jobs:
 
       - name: Run Checks Action on Failure
         if: failure()
-        uses: LouisBrunner/checks-action@v1.3.1
+        uses: LouisBrunner/checks-action@v1.6.1
         with:
           sha: ${{ github.sha }}
           token: ${{ steps.get_installation_token.outputs.token }}
