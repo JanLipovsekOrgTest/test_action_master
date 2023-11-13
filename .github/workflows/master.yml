@@ -35,15 +35,29 @@ jobs:
         script: |
           github.rest.actions.createWorkflowDispatch({
             owner: 'JanLipovsekOrgTest',
-            repo: 'test_action_slave',
-            workflow_id: 'slave.yml',
+            repo: 'test_action_master',
+            workflow_id: 'slave_local.yml',
             ref: 'main',
             inputs: {
               "workflow-input-1": "${{ github.sha }}",
               "workflow-input-2": "value-2",
             }
           })
-
+    # - name: Trigger Workflow
+    # uses: actions/github-script@v6
+    # with:
+    #   github-token: ${{ steps.get_installation_token.outputs.token }}
+    #   script: |
+    #     github.rest.actions.createWorkflowDispatch({
+    #       owner: 'JanLipovsekOrgTest',
+    #       repo: 'test_action_slave',
+    #       workflow_id: 'slave.yml',
+    #       ref: 'main',
+    #       inputs: {
+    #         "workflow-input-1": "${{ github.sha }}",
+    #         "workflow-input-2": "value-2",
+    #       }
+    #     })
     # - name: Dispatch an action and get the run ID
     #   uses: codex-/return-dispatch@v1
     #   id: return_dispatch
