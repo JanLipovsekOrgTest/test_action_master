@@ -38,5 +38,5 @@ jobs:
         name: Second Job
         conclusion: ${{ job.status }}
         output: |
-          "sadasdasdasd"
+          {"summary":"sadsadasd"}
 
