@@ -44,7 +44,7 @@ jobs:
               workflow_id: 'slave2.yml',
               ref: 'main',
               inputs: {
-                "workflow-input-1": "value-1",
+                "workflow-input-1": ${{ github.sha }},
                 "workflow-input-2": "value-2"
               }
             })
