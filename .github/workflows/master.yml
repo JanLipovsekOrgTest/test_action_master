@@ -35,7 +35,6 @@ jobs:
         github-token: ${{ steps.get_installation_token.outputs.token }}
         script: |
           github.rest.actions.createWorkflowDispatch({
-            host: 'api.github.com',
             owner: 'JanLipovsekOrgTest',
             repo: 'test_action_master',
             workflow_id: 'slave_local.yml',
