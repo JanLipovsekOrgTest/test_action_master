@@ -69,4 +69,4 @@ jobs:
           script: |
             console.log(context.repo.owner);
             console.log(context.repo.repo);
-            console.log("${{ github.event.inputs.workflow-input-1 }}");
+            console.log("${{ github.sha }});
