@@ -69,4 +69,4 @@ jobs:
           script: |
             console.log(context.repo.owner);
             console.log(context.repo.repo);
-            console.log("${{ github.sha }});
+            console.log("${{ github.sha }}");
