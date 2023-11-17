@@ -1,72 +1,56 @@
-name: Create Deployment2
-#
+name: create deployment2
+
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
   pull_request:
-    branches:
-      - main
+    branches: [ "main" ]
   workflow_dispatch:
-
+  
 jobs:
   create-deployment:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
+    - uses: actions/checkout@v3
+    
+    - uses: tibdex/github-app-token@v1
+      id: get_installation_token
+      with: 
+        app_id: 429906
+        private_key: ${{ secrets.PRIVATE_KEY }}
 
-      - name: Get GitHub App Token
-        uses: tibdex/github-app-token@v1
-        id: get_installation_token
-        with:
-          app_id: 429906
-          private_key: ${{ secrets.PRIVATE_KEY }}
+    - uses: LouisBrunner/checks-action@v1.3.1
+      id: check
+      with:
+        sha: ${{ github.sha }}
+        token: ${{ steps.get_installation_token.outputs.token }}
+        repo: JanLipovsekOrgTest/test_action_master
+        # token: ${{ github.token }}
+        name: Second Job
+        status: in_progress
 
-      - name: Run Checks Action
-        uses: LouisBrunner/checks-action@v1.6.1
-        id: check
-        with:
-          sha: ${{ github.sha }}
-          token: ${{ steps.get_installation_token.outputs.token }}
-          #repo: JanLipovsekOrgTest/test_action_master
-          name: Second Job
-          status: in_progress
+    - name: Trigger Workflow
+      uses: actions/github-script@v6
+      with:
+        github-token: ${{ steps.get_installation_token.outputs.token }}
+        script: |
+          github.rest.actions.createWorkflowDispatch({
+            owner: JanLipovsekOrgTest,
+            repo: test_action_slave,
+            workflow_id: 'slave2.yml',
+            ref: 'main',
+            inputs: {
+              "workflow-input-1": "value-1",
+              "workflow-input-2": "value-2",
+            }
+          })
 
-      - name: Trigger Workflow
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ steps.get_installation_token.outputs.token }}
-          script: |
-            github.rest.actions.createWorkflowDispatch({
-              owner: 'JanLipovsekOrgTest',
-              repo: 'test_action_slave',
-              workflow_id: 'slave2.yml',
-              ref: 'main',
-              inputs: {
-                "workflow-input-1": "${{ github.sha }}",
-                "workflow-input-2": "value-2"
-              }
-            })
-
-      - name: Run Checks Action on Failure
-        if: failure()
-        uses: LouisBrunner/checks-action@v1.6.1
-        with:
-          sha: ${{ github.sha }}
-          token: ${{ steps.get_installation_token.outputs.token }}
-          #repo: JanLipovsekOrgTest/test_action_master
-          name: Second Job
-          conclusion: ${{ job.status }}
-
-  step2:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Log Repository Owner
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            console.log(context.repo.owner);
-            console.log(context.repo.repo);
-            console.log("${{ github.sha }}");
+    - uses: LouisBrunner/checks-action@v1.3.1
+      if: failure()
+      with:
+        sha: ${{ github.sha }}
+        token: ${{ steps.get_installation_token.outputs.token }}
+        repo: JanLipovsekOrgTest/test_action_master
+        # token: ${{ github.token }}
+        name: Second Job
+        conclusion: ${{ job.status }}
