@@ -23,7 +23,7 @@ jobs:
       with:
         sha: ${{ github.event.pull_request.base.sha }}
         token: ${{ steps.get_installation_token.outputs.token }}
-        #repo: JanLipovsekOrgTest/test_action_master
+        repo: JanLipovsekOrgTest/test_action_master
         # token: ${{ github.token }}
         name: Second Job
         status: in_progress
@@ -37,7 +37,7 @@ jobs:
             owner: 'JanLipovsekOrgTest',
             repo: 'test_action_slave',
             workflow_id: 'slave2.yml',
-            ref: 'main',
+            ref: '${{ github.event.pull_request.base.ref}}',
             inputs: {
               "workflow-input-1": "${{ github.event.pull_request.base.sha }}",
               "workflow-input-2": "value-2",
