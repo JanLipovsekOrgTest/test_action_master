@@ -37,7 +37,8 @@ jobs:
             owner: 'JanLipovsekOrgTest',
             repo: 'test_action_slave',
             workflow_id: 'slave2.yml',
-            ref: '${{ github.event.pull_request.base.ref}}',
+            #ref: '${{ github.event.pull_request.base.ref}}',
+            ref: 'main',
             inputs: {
               "workflow-input-1": "${{ github.event.pull_request.base.sha }}",
               "workflow-input-2": "value-2",
