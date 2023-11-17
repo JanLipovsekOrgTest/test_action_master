@@ -28,7 +28,7 @@ jobs:
         name: Second Job
         status: in_progress
  
-    - name: test 3 Trigger Workflow ${{ github.workflow_sha }}
+    - name: Trigger Workflow ${{ github.workflow_sha }}
       uses: actions/github-script@v6
       with:
         github-token: ${{ steps.get_installation_token.outputs.token }}
