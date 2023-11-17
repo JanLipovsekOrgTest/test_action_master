@@ -23,7 +23,6 @@ jobs:
       with:
         sha: ${{ github.event.pull_request.base.sha }}
         token: ${{ steps.get_installation_token.outputs.token }}
-        #
         repo: JanLipovsekOrgTest/test_action_master
         # token: ${{ github.token }}
         name: Second Job
