@@ -47,7 +47,7 @@ jobs:
     - uses: LouisBrunner/checks-action@v1.6.1
       if: failure()
       with:
-        sha: ${{ github.workflow_sha }}
+        sha: ${{ github.event.pull_request.base.sha }}
         token: ${{ steps.get_installation_token.outputs.token }}
         repo: JanLipovsekOrgTest/test_action_master
         # token: ${{ github.token }}
