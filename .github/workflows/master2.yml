@@ -21,14 +21,14 @@ jobs:
     - uses: LouisBrunner/checks-action@v1.6.1
       id: check
       with:
-        sha: ${{ github.sha }}
+        sha: ${{ github.workflow_sha }}
         token: ${{ steps.get_installation_token.outputs.token }}
         #repo: JanLipovsekOrgTest/test_action_master
         # token: ${{ github.token }}
         name: Second Job
         status: in_progress
  
-    - name: Trigger Workflow ${{ github.sha }}
+    - name: Trigger Workflow ${{ github.workflow_sha }}
       uses: actions/github-script@v6
       with:
         github-token: ${{ steps.get_installation_token.outputs.token }}
