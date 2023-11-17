@@ -38,7 +38,7 @@ jobs:
             owner: 'JanLipovsekOrgTest',
             repo: 'test_action_slave',
             workflow_id: 'slave2.yml',
-            ref: '${{ github.sha }}',
+            ref: '${{ github.head_ref }}',
             inputs: {
               "workflow-input-1": "${{ github.sha }}",
               "workflow-input-2": "value-2",
