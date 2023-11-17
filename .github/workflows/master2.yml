@@ -41,7 +41,7 @@ jobs:
             ref: 'main',
             inputs: {
               "workflow-input-1": "${{ github.event.pull_request.head.sha }}",
-              "workflow-input-2": "value-2",
+              "workflow-input-2": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}",
             }
           })
 
