@@ -7,5 +7,3 @@ sdfsdf
 sad
 gerg
 dfsgdsfg
-drewqrf4rda
-asdasd
