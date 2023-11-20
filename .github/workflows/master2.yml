@@ -29,39 +29,53 @@ jobs:
         # token: ${{ github.token }}
         name: Second Job
         status: in_progress
-  
-    - name: Trigger Workflow pr
-      if: github.event_name == 'pull_request'
-      uses: actions/github-script@v6
+ 
+    - name: Dispatch an action and get the run ID
+      uses: codex-/return-dispatch@v1
+      id: return_dispatch
       with:
-        github-token: ${{ steps.get_installation_token.outputs.token }}
-        script: |
-          github.rest.actions.createWorkflowDispatch({
-            owner: 'JanLipovsekOrgTest',
-            repo: 'test_action_slave',
-            workflow_id: 'slave2.yml',
-            ref: 'main',
-            inputs: {
-              "workflow-input-1": "${{ github.event.pull_request.head.sha }}",
-              "workflow-input-2": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}",
-            }
-          })
-    - name: Trigger Workflow push
-      if: github.event_name == 'push'
-      uses: actions/github-script@v6
-      with:
-        github-token: ${{ steps.get_installation_token.outputs.token }}
-        script: |
-          github.rest.actions.createWorkflowDispatch({
-            owner: 'JanLipovsekOrgTest',
-            repo: 'test_action_slave',
-            workflow_id: 'slave2.yml',
-            ref: 'main',
-            inputs: {
-              "workflow-input-1": "//",
-              "workflow-input-2": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}",
-            }
-          })
+        token: ${{ steps.get_installation_token.outputs.token }} # Note this is NOT GITHUB_TOKEN but a PAT
+        ref: main # or refs/heads/target_branch
+        repo: test_action_slave
+        owner: JanLipovsekOrgTest
+        workflow: slave2.yml
+        workflow_inputs: '{"sha": "${{ github.event.pull_request.head.sha }}", "parent_url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}'
+        workflow_timeout_seconds: 300 # was 120  Default: 300
+
+
+
+    # - name: Trigger Workflow pr
+    #   if: github.event_name == 'pull_request'
+    #   uses: actions/github-script@v6
+    #   with:
+    #     github-token: ${{ steps.get_installation_token.outputs.token }}
+    #     script: |
+    #       github.rest.actions.createWorkflowDispatch({
+    #         owner: 'JanLipovsekOrgTest',
+    #         repo: 'test_action_slave',
+    #         workflow_id: 'slave2.yml',
+    #         ref: 'main',
+    #         inputs: {
+    #           "sha": "${{ github.event.pull_request.head.sha }}",
+    #           "parent_url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+    #         }
+    #       })
+    # - name: Trigger Workflow push
+    #   if: github.event_name == 'push'
+    #   uses: actions/github-script@v6
+    #   with:
+    #     github-token: ${{ steps.get_installation_token.outputs.token }}
+    #     script: |
+    #       github.rest.actions.createWorkflowDispatch({
+    #         owner: 'JanLipovsekOrgTest',
+    #         repo: 'test_action_slave',
+    #         workflow_id: 'slave2.yml',
+    #         ref: 'main',
+    #         inputs: {
+    #           "sha": "//",
+    #           "parent_url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+    #         }
+    #       })
 
     - uses: LouisBrunner/checks-action@v1.6.1
       if: failure() && github.event_name == 'pull_request'
