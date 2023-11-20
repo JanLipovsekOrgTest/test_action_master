@@ -3,8 +3,8 @@ name: create deployment2
 on:
   pull_request:
     branches: ["main", "develop"]
-  # push:
-  #   branches: [ "main" ]
+  push:
+    branches: [ "main" ]
   workflow_dispatch:
   
 jobs:
@@ -20,6 +20,7 @@ jobs:
         private_key: ${{ secrets.PRIVATE_KEY }}
 
     - uses: LouisBrunner/checks-action@v1.6.1
+      if: github.event_name == 'pull_request'
       id: check
       with:
         sha: ${{ github.event.pull_request.head.sha }}
@@ -29,7 +30,8 @@ jobs:
         name: Second Job
         status: in_progress
  
-    - name: Trigger Workflow ${{ github.event.pull_request.head.sha }}
+    - name: Trigger Workflow pr
+      if: github.event_name == 'pull_request'
       uses: actions/github-script@v6
       with:
         github-token: ${{ steps.get_installation_token.outputs.token }}
@@ -44,9 +46,25 @@ jobs:
               "workflow-input-2": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}",
             }
           })
+    - name: Trigger Workflow push
+      if: github.event_name == 'push'
+      uses: actions/github-script@v6
+      with:
+        github-token: ${{ steps.get_installation_token.outputs.token }}
+        script: |
+          github.rest.actions.createWorkflowDispatch({
+            owner: 'JanLipovsekOrgTest',
+            repo: 'test_action_slave',
+            workflow_id: 'slave2.yml',
+            ref: 'main',
+            inputs: {
+              "workflow-input-1": "//",
+              "workflow-input-2": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+            }
+          })
 
     - uses: LouisBrunner/checks-action@v1.6.1
-      if: failure()
+      if: failure() && github.event_name == 'pull_request'
       with:
         sha: ${{ github.event.pull_request.head.sha }}
         token: ${{ steps.get_installation_token.outputs.token }}
