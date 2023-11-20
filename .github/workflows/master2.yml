@@ -43,7 +43,7 @@ jobs:
         workflow_timeout_seconds: 300 # was 120  Default: 300
 
     - name: Release
-      run: echo "https://github.com/luxonis/depthai-core-hil-tests/actions/runs/${{steps.return_dispatch.outputs.run_id}}" >> $GITHUB_STEP_SUMMARY
+      run: echo "https://github.com/JanLipovsekOrgTest/test_action_slave/actions/runs/${{steps.return_dispatch.outputs.run_id}}" >> $GITHUB_STEP_SUMMARY
 
 
     # - name: Trigger Workflow pr
